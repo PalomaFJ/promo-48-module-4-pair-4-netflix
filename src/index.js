@@ -10,7 +10,7 @@ server.use(express.json({ limit: "25md" }));
 // Esto es la función con la que nos conectamos a la base de datos
 async function getBDConnection() {
   const connection = await mysql.createConnection({
-    host: "localhots",
+    host: "localhost",
     user: "root",
     password: "pipo",
     database: "netflix"
@@ -49,7 +49,9 @@ const fakeMovies = [
 ];
 server.get("/api/peliculas" , async (req, res) => {
   const connection = await getBDConnection()
-  console.log(connection);
+  const query = "SELECT * FROM netflix;";
+  const result = await connection.query(query);
+  console.log(result);
   res.json({});
 });
 
