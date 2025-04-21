@@ -1,10 +1,23 @@
 const express = require("express");
 const cors = require("cors");
+const mysql = require("mysql2/promise");
 
 // create and config server
 const server = express();
 server.use(cors());
-server.use(express.json());
+server.use(express.json({ limit: "25md" }));
+
+// Esto es la función con la que nos conectamos a la base de datos
+async function getBDConnection() {
+  const connection = await mysql.createConnection({
+    host: "localhots",
+    user: "root",
+    password: "pipo",
+    database: "netflix"
+  })
+  connection.connect();
+  return connection
+}
 
 // init express aplication
 const serverPort = 4000;
@@ -34,6 +47,12 @@ const fakeMovies = [
     director: "Christopher Nolan",
   },
 ];
+server.get("/api/peliculas" , async (req, res) => {
+  const connection = await getBDConnection()
+  console.log(connection);
+  res.json({});
+});
+
 
 server.get("/api/movies", (req, res) => {
   if (fakeMovies.length === 0) {
