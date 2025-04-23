@@ -51,7 +51,7 @@ server.get("/api/peliculas" , async (req, res) => {
   const connection = await getBDConnection()
   const query = "SELECT * FROM netflix;";
   const result = await connection.query(query);
-  console.log(result);
+  console.log(result[0]);
   res.json({});
 });
 
