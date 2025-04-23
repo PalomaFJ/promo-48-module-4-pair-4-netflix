@@ -13,10 +13,10 @@ async function getBDConnection() {
     host: "localhost",
     user: "root",
     password: "pipo",
-    database: "netflix"
-  })
+    database: "netflix",
+  });
   connection.connect();
-  return connection
+  return connection;
 }
 
 // init express aplication
@@ -47,14 +47,19 @@ const fakeMovies = [
     director: "Christopher Nolan",
   },
 ];
-server.get("/api/peliculas" , async (req, res) => {
-  const connection = await getBDConnection()
-  const query = "SELECT * FROM netflix;";
-  const result = await connection.query(query);
-  console.log(result[0]);
-  res.json({});
-});
+server.get("/api/peliculas", async (req, res) => {
+  const connection = await getBDConnection();
+  const query = "SELECT * FROM movies;";
+  const [result] = await connection.query(query);
+  console.log(result);
 
+  connection.end();
+
+  res.status(200).json({
+    success: true,
+    result: result,
+  });
+});
 
 server.get("/api/movies", (req, res) => {
   if (fakeMovies.length === 0) {
