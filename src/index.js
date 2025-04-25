@@ -74,3 +74,10 @@ server.get("/api/movies", (req, res) => {
     });
   }
 });
+
+server.post("/api/register", async (req, res) =>{
+  const connection = await getBDConnection();
+  const params = req.body;
+  console.log(params);
+  res.json({});
+})
